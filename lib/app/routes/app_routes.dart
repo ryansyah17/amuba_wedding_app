@@ -7,6 +7,7 @@ abstract class Routes {
   static const WELCOME = _Paths.WELCOME;
   static const SPLASHSCREEN = _Paths.SPLASHSCREEN;
   static const DETAIL_EVENT = _Paths.DETAIL_EVENT;
+  static const DETAIL_BANNERPROMOSI = _Paths.DETAIL_BANNERPROMOSI;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const WELCOME = '/welcome';
   static const SPLASHSCREEN = '/splashscreen';
   static const DETAIL_EVENT = '/detail-event';
+  static const DETAIL_BANNERPROMOSI = '/detail-bannerpromosi';
 }

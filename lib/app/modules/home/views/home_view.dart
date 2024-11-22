@@ -2,6 +2,7 @@ import 'package:amubavisual_weddingphoto/app/constant/const_color.dart';
 import 'package:amubavisual_weddingphoto/app/data/arguments/detail_event_arguments.dart';
 import 'package:amubavisual_weddingphoto/app/data/home_data/banner_slide_data.dart'
     as image;
+import 'package:amubavisual_weddingphoto/app/modules/detail_bannerpromosi/views/detail_bannerpromosi_view.dart';
 import 'package:amubavisual_weddingphoto/app/modules/detail_event/views/detail_event_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 
 import '../../../constant/const_text.dart';
 import '../../../constant/constant.dart';
+import '../../../data/arguments/detail_banner_promosi.dart';
 import '../../../data/home_data/banner_promosi_data.dart' as promosi;
 import '../controllers/home_controller.dart';
 
@@ -49,14 +51,14 @@ class HomeView extends GetView<HomeController> {
                           ),
                       child: ListView(
                         children: [
-                          _containerImageSlider(context, _carouselSlider,
-                              controller.imageSlideData.value.data!, _current),
-                          getSizedBox(size: 20, context: context),
-                          _containerImageBanner(
+                          _containerImageSlider(
                               context,
                               _carouselSlider,
                               controller.promosiSlideData.value.data!,
-                              _current2),
+                              _current),
+                          getSizedBox(size: 20, context: context),
+                          _containerImageBanner(context, _carouselSlider,
+                              controller.imageSlideData.value.data!, _current2),
                           getSizedBox(size: 20, context: context),
                           _containerListEvent(context, controller),
                         ],
@@ -69,7 +71,7 @@ class HomeView extends GetView<HomeController> {
   Widget _containerImageSlider(
     BuildContext context,
     CarouselSliderController _carouselSlider,
-    List<image.Data> slides,
+    List<promosi.Data> slides,
     RxInt _current,
   ) {
     return Column(
@@ -86,9 +88,21 @@ class HomeView extends GetView<HomeController> {
                   itemCount: slides.length,
                   itemBuilder: (context, index, realIndex) {
                     var data = slides[index];
-                    return SizedBox(
-                      width: double.infinity,
-                      child: imageNetwork(data.thumbMediaUrl!),
+                    return GestureDetector(
+                      onTap: () {
+                        var args = DetailBannerPromosiArguments(
+                          id: data.id!,
+                        );
+                        Get.to(
+                            DetailBannerpromosiView(
+                              bannerId: data.id!,
+                            ),
+                            arguments: args);
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: imageNetwork(data.thumbMediaUrl!),
+                      ),
                     );
                   },
                   options: CarouselOptions(
@@ -110,7 +124,7 @@ class HomeView extends GetView<HomeController> {
                 child: Obx(() {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: controller.imageSlideData.value.data!
+                    children: controller.promosiSlideData.value.data!
                         .asMap()
                         .entries
                         .map((entry) {
@@ -142,7 +156,7 @@ class HomeView extends GetView<HomeController> {
   Widget _containerImageBanner(
     BuildContext context,
     CarouselSliderController _carouselSlider,
-    List<promosi.Data> slides,
+    List<image.Data> slides,
     RxInt _current2,
   ) {
     return Column(
@@ -240,12 +254,18 @@ class HomeView extends GetView<HomeController> {
                             baseStyle: textPrimer(context: context),
                           ),
                           onChanged: (value) {
-                            homeCtrl.selectedid.value = controller
-                                .kategoriData.value.data!
-                                .firstWhere((element) => element.name == value)
-                                .id!;
-                            homeCtrl.fetchEventData(
-                                true, homeCtrl.selectedid.value);
+                            if (value == 'All') {
+                              // Jika 'All' dipilih, panggil fetchHomeData
+                              homeCtrl.fetchEventData(true, null);
+                            } else {
+                              homeCtrl.selectedid.value = controller
+                                  .kategoriData.value.data!
+                                  .firstWhere(
+                                      (element) => element.name == value)
+                                  .id!;
+                              homeCtrl.fetchEventData(
+                                  true, homeCtrl.selectedid.value);
+                            }
                           },
                           selectedItem: '',
                         ),
@@ -283,10 +303,10 @@ class HomeView extends GetView<HomeController> {
                             var data = homeCtrl.eventData.value.data![index];
                             return GestureDetector(
                               onTap: () {
-                                var args = DetailEventArguments(id: data.id);
+                                var args = DetailEventArguments(id: data.id!);
                                 Get.to(
                                     DetailEventView(
-                                      eventId: data.id,
+                                      eventId: data.id!,
                                     ),
                                     arguments: args);
                                 print(data.id);
@@ -306,7 +326,7 @@ class HomeView extends GetView<HomeController> {
                                       border: Border.all(color: whiteColor),
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                            data.thumbMediaUrl,
+                                            data.thumbMediaUrl!,
                                           ),
                                           fit: BoxFit.cover),
                                     ),
@@ -339,7 +359,7 @@ class HomeView extends GetView<HomeController> {
                                                           y: 15,
                                                           context: context))),
                                           child: Text(
-                                            '#${data.category.name}',
+                                            '#${data.category!.name}',
                                             style: textPrimer(context: context)
                                                 .copyWith(
                                               color: blackColor,
@@ -355,7 +375,7 @@ class HomeView extends GetView<HomeController> {
                                           decoration:
                                               BoxDecoration(color: whiteColor),
                                           child: Text(
-                                            data.tanggalFormatted,
+                                            data.tanggalFormatted!,
                                             style: textPrimer(context: context)
                                                 .copyWith(
                                               color: blackColor,

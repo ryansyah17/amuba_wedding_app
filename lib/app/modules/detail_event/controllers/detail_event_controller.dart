@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:amubavisual_weddingphoto/app/constant/const_color.dart';
 import 'package:amubavisual_weddingphoto/app/data/arguments/detail_event_arguments.dart';
 import 'package:amubavisual_weddingphoto/app/data/home_data/event_detail_data.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -92,6 +94,12 @@ class DetailEventController extends GetxController {
         Get.snackbar(
           'Success',
           'Berhasil Download Image',
+          colorText: blackColor,
+          backgroundColor: primerColor,
+          icon: Icon(
+            Icons.check,
+            color: blackColor,
+          ),
         );
         print(result);
       } else {

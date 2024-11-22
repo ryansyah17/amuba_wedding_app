@@ -114,7 +114,7 @@ class HomeController extends GetxController {
         final jsonData = json.decode(response.body);
         kategoriData.value = DataKategori.fromJson(jsonData);
         // Memasukkan hasil ke dalam value dropdown
-        kategori.value =
+        kategori.value = ['All'] +
             kategoriData.value.data!.map((e) => e.name ?? '').toList();
       } else {
         handleErrorResponse(response);
@@ -134,7 +134,7 @@ class HomeController extends GetxController {
     update();
 
     var url =
-        '${baseUrl}api/v1/event${selectedId != null ? '?category=$selectedId' : ''}';
+        '${baseUrl}api/v1/event${selectedId != null && selectedId != 0 ? '?category=$selectedId' : ''}';
     try {
       final response = await http.get(
         Uri.parse(url),

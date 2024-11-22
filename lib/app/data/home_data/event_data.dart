@@ -25,27 +25,27 @@ class DataEvent {
 
 class Data {
   Data({
-    required this.id,
-    required this.tanggal,
-    required this.weddingNama,
-    required this.lokasi,
-    required this.categoryId,
-    required this.status,
-    required this.tanggalFormatted,
-    required this.mediaUrl,
-    required this.thumbMediaUrl,
-    required this.category,
+    this.id,
+    this.tanggal,
+    this.weddingNama,
+    this.lokasi,
+    this.categoryId,
+    this.status,
+    this.tanggalFormatted,
+    this.mediaUrl,
+    this.thumbMediaUrl,
+    this.category,
   });
-  late final int id;
-  late final String tanggal;
-  late final String weddingNama;
-  late final String lokasi;
-  late final int categoryId;
-  late final String status;
-  late final String tanggalFormatted;
-  late final String mediaUrl;
-  late final String thumbMediaUrl;
-  late final Category category;
+  late final int? id;
+  late final String? tanggal;
+  late final String? weddingNama;
+  late final String? lokasi;
+  late final int? categoryId;
+  late final String? status;
+  late final String? tanggalFormatted;
+  late final String? mediaUrl;
+  late final String? thumbMediaUrl;
+  late final Category? category;
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -71,7 +71,7 @@ class Data {
     _data['tanggal_formatted'] = tanggalFormatted;
     _data['media_url'] = mediaUrl;
     _data['thumb_media_url'] = thumbMediaUrl;
-    _data['category'] = category.toJson();
+    _data['category'] = category!.toJson();
     return _data;
   }
 }

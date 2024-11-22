@@ -245,10 +245,8 @@ class FullScreenPhotoView extends StatelessWidget {
           TextButton(
             onPressed: () async {
               String imageUrl = imageUrls[controller.currentIndex.value];
-              String imageName =
-                  'image_${controller.currentIndex.value + 1}'; // Customize the name as needed
-
-              // Call the function to save the image
+              String imageName = DateTime.now()
+                  .toString(); // Call the function to save the image
               await controller.simpanGambarDariJaringan(imageUrl, imageName);
             },
             child: Container(
@@ -270,6 +268,7 @@ class FullScreenPhotoView extends StatelessWidget {
       body: PhotoViewGallery.builder(
         itemCount: imageUrls.length,
         builder: (context, index) {
+          print(imageUrls);
           // Update the current index whenever the page changes
           pageController.addListener(() {
             controller.setCurrentIndex(pageController.page!.round());
