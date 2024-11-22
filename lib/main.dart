@@ -9,7 +9,7 @@ void main() async {
     (_) => {
       runApp(
         GetMaterialApp(
-          title: "Application",
+          title: "Team Amuba",
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
           debugShowCheckedModeBanner: false,

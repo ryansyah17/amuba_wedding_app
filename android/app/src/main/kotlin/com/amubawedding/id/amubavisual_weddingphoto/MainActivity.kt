@@ -1,4 +1,4 @@
-package com.amubawedding.id.amubavisual_weddingphoto
+package com.amubawedding.id
 
 import io.flutter.embedding.android.FlutterActivity
 

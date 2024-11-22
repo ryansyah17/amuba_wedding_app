@@ -51,7 +51,11 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
                                     .dataDetailBannerPromosi.value.sliderMedia!,
                                 _current),
                             getSizedBox(size: 20, context: context),
-                            _containerColor(context, selectedColor),
+                            controller.dataDetailBannerPromosi.value.slider!
+                                        .isColorable ==
+                                    false
+                                ? SizedBox()
+                                : _containerColor(context, selectedColor),
                             _containerDescription(context, controller),
                           ],
                         ),

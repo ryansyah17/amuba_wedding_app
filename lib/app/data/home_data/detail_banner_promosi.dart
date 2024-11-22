@@ -37,6 +37,7 @@ class Slider {
     this.description,
     this.link,
     this.status,
+    this.isColorable,
     this.mediaUrl,
     this.thumbMediaUrl,
   });
@@ -46,6 +47,7 @@ class Slider {
   late final String? description;
   late final String? link;
   late final String? status;
+  late final bool? isColorable;
   late final String? mediaUrl;
   late final String? thumbMediaUrl;
 
@@ -56,6 +58,7 @@ class Slider {
     description = json['description'];
     link = json['link'];
     status = json['status'];
+    isColorable = json['is_colorable'];
     mediaUrl = json['media_url'];
     thumbMediaUrl = json['thumb_media_url'];
   }
@@ -68,6 +71,7 @@ class Slider {
     _data['description'] = description;
     _data['link'] = link;
     _data['status'] = status;
+    _data['is_colorable'] = isColorable;
     _data['media_url'] = mediaUrl;
     _data['thumb_media_url'] = thumbMediaUrl;
     return _data;

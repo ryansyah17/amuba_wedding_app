@@ -34,6 +34,7 @@ dependencies:
   dropdown_search: ^6.0.1
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.1
   flutter_spinkit: ^5.2.1
   flutter_staggered_grid_view: ^0.7.0
   flutter_widget_from_html: ^0.15.3
@@ -50,9 +51,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-# The following section is specific to Flutter packages.
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/visual-logo.jpg"
+
 flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

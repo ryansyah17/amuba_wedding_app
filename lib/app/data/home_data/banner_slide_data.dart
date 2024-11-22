@@ -28,18 +28,18 @@ class Data {
     this.id,
     this.kategori,
     this.title,
-    this.description,
     this.link,
     this.status,
+    this.isColorable,
     this.mediaUrl,
     this.thumbMediaUrl,
   });
   late final int? id;
   late final String? kategori;
   late final String? title;
-  late final String? description;
   late final String? link;
   late final String? status;
+  late final bool? isColorable;
   late final String? mediaUrl;
   late final String? thumbMediaUrl;
 
@@ -47,9 +47,9 @@ class Data {
     id = json['id'];
     kategori = json['kategori'];
     title = json['title'];
-    description = json['description'];
     link = json['link'];
     status = json['status'];
+    isColorable = json['is_colorable'];
     mediaUrl = json['media_url'];
     thumbMediaUrl = json['thumb_media_url'];
   }
@@ -59,9 +59,9 @@ class Data {
     _data['id'] = id;
     _data['kategori'] = kategori;
     _data['title'] = title;
-    _data['description'] = description;
     _data['link'] = link;
     _data['status'] = status;
+    _data['is_colorable'] = isColorable;
     _data['media_url'] = mediaUrl;
     _data['thumb_media_url'] = thumbMediaUrl;
     return _data;

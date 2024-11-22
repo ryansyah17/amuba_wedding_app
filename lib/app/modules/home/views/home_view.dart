@@ -267,7 +267,7 @@ class HomeView extends GetView<HomeController> {
                                   true, homeCtrl.selectedid.value);
                             }
                           },
-                          selectedItem: '',
+                          selectedItem: 'All',
                         ),
                       ),
                     ],
