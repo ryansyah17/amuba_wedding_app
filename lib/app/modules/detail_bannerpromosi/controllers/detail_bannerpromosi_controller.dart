@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:amubavisual_weddingphoto/app/data/arguments/detail_banner_promosi.dart';
 import 'package:amubavisual_weddingphoto/app/data/home_data/detail_banner_promosi.dart';
-import 'package:http/http.dart ' as http;
+import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
 import '../../../../services/services.dart';
@@ -45,7 +45,8 @@ class DetailBannerpromosiController extends GetxController {
       );
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-        dataDetailBannerPromosi.value = DataDetailBannerPromosi.fromJson(jsonData);
+        dataDetailBannerPromosi.value =
+            DataDetailBannerPromosi.fromJson(jsonData);
       } else {
         handleErrorResponse(response);
       }
