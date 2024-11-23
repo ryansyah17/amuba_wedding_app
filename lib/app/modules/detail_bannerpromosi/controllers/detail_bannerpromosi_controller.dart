@@ -9,6 +9,7 @@ import '../../../../services/services.dart';
 import '../../../constant/base_url.dart';
 
 class DetailBannerpromosiController extends GetxController {
+  var current = 0.obs;
   var isLoadingDetailBannerPromosi = false.obs;
 
   var dataDetailBannerPromosi = DataDetailBannerPromosi().obs;

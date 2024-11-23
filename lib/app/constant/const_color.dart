@@ -24,6 +24,7 @@ const Color meganColorHijau2 = Color(0xFF6b828b);
 const Color meganColorYellow = Color(0xFFFFE31A);
 const Color meganColorOrange = Color(0xFFe16d00);
 const Color meganColorUngu = Color(0xFF9193b9);
+const Color meganColorgrey = Color(0xFFA6AEBF);
 
 class MeganColor {
   final String name;
@@ -44,4 +45,5 @@ const List<MeganColor> meganColorList = [
   MeganColor('Megan Yellow', meganColorYellow),
   MeganColor('Megan Orange', meganColorOrange),
   MeganColor('Megan Ungu', meganColorUngu),
+  MeganColor('Megan grey', meganColorgrey),
 ];

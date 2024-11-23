@@ -46,9 +46,11 @@ class HomeView extends GetView<HomeController> {
                       controller.promosiSlideData.value.success == false
                   ? loadingShow(context)
                   : RefreshIndicator(
-                      onRefresh: () => Future.sync(
-                            () => controller.fetchBannerData(true),
-                          ),
+                      onRefresh: () => Future.sync(() {
+                            controller.fetchBannerData(true);
+                            controller.fetchBannerPromosiData(true);
+                            controller.fetchEventData(true, null);
+                          }),
                       child: ListView(
                         children: [
                           _containerImageSlider(
@@ -56,6 +58,20 @@ class HomeView extends GetView<HomeController> {
                               _carouselSlider,
                               controller.promosiSlideData.value.data!,
                               _current),
+                          getSizedBox(size: 20, context: context),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: getActualY(y: 20, context: context),
+                            ),
+                            child: Text(
+                              'Part of Team Amuba',
+                              style: textPrimer(context: context).copyWith(
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      getActualY(y: 16, context: context)),
+                            ),
+                          ),
                           getSizedBox(size: 20, context: context),
                           _containerImageBanner(context, _carouselSlider,
                               controller.imageSlideData.value.data!, _current2),

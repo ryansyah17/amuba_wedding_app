@@ -22,19 +22,23 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
       builder: (controller) {
         final CarouselSliderController _carouselSlider =
             CarouselSliderController();
-        var _current = 0.obs;
 
         return Obx(() => Scaffold(
               backgroundColor:
                   selectedColor.value, // menggunakan warna yang dipilih
               appBar: AppBar(
                 backgroundColor: blackColor,
+                centerTitle: true,
                 leading: IconButton(
                   icon: const Icon(
                     Icons.arrow_back,
                     color: whiteColor,
                   ),
                   onPressed: () => Get.back(),
+                ),
+                title: SizedBox(
+                  width: getActualY(y: 200, context: context),
+                  child: Image.asset('assets/images/TEAMAMUBA BARU.png'),
                 ),
               ),
               body: controller.isLoadingDetailBannerPromosi.value
@@ -49,13 +53,14 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
                                 _carouselSlider,
                                 controller
                                     .dataDetailBannerPromosi.value.sliderMedia!,
-                                _current),
+                                controller.current),
                             getSizedBox(size: 20, context: context),
                             controller.dataDetailBannerPromosi.value.slider!
                                         .isColorable ==
                                     false
                                 ? SizedBox()
-                                : _containerColor(context, selectedColor),
+                                : _containerColor(
+                                    context, selectedColor, controller),
                             _containerDescription(context, controller),
                           ],
                         ),
@@ -105,12 +110,11 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
                         },
                         options: CarouselOptions(
                           height: getActualY(y: 180, context: context),
-                          autoPlay: true,
+                          autoPlay: false,
                           viewportFraction: 0.85,
                           onPageChanged: (index, reason) {
                             if (_current.value != index) {
-                              _current.value =
-                                  index; // Update only if different
+                              _current.value = index;
                             }
                           },
                         ),
@@ -179,7 +183,8 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
   }
 }
 
-Widget _containerColor(BuildContext context, Rx<Color> selectedColor) {
+Widget _containerColor(BuildContext context, Rx<Color> selectedColor,
+    DetailBannerpromosiController controller) {
   return Padding(
     padding:
         EdgeInsets.symmetric(horizontal: getActualX(x: 20, context: context)),
@@ -202,6 +207,8 @@ Widget _containerColor(BuildContext context, Rx<Color> selectedColor) {
               return GestureDetector(
                 onTap: () {
                   selectedColor.value = data.color; // update warna yang dipilih
+                  controller.current.value =
+                      index; // update current index to match selected color
                   print(selectedColor.value);
                 },
                 child: Obx(() => Container(

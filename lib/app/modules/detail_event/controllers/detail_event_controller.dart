@@ -11,11 +11,14 @@ import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 
 import '../../../../services/services.dart';
 import '../../../constant/base_url.dart';
+import '../../../data/home_data/banner_promosi_data.dart';
 
 class DetailEventController extends GetxController {
   var isLoadingDetailEvent = false.obs;
+  var isLoadingBannerPromosiData = false.obs;
 
   var detailEventData = DataDetailEvent().obs;
+  var promosiSlideData = DataBannerPromosi().obs;
 
   //args
   DetailEventArguments args = Get.arguments;
@@ -28,6 +31,7 @@ class DetailEventController extends GetxController {
 
   @override
   void onInit() {
+    fetchBannerPromosiData(true);
     fetchEventDetailData(true);
     super.onInit();
   }
@@ -75,6 +79,32 @@ class DetailEventController extends GetxController {
       print(e);
     } finally {
       isLoadingDetailEvent.value = false;
+      update();
+    }
+  }
+
+  Future<void> fetchBannerPromosiData(bool refresh) async {
+    isLoadingBannerPromosiData.value = true;
+    update();
+    var url = '${baseUrl}api/v1/slider?kategori=banner_promosi';
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        promosiSlideData.value = DataBannerPromosi.fromJson(jsonData);
+      } else {
+        handleErrorResponse(response);
+      }
+    } catch (e) {
+      handleException('Promosi', e);
+      print(e);
+    } finally {
+      isLoadingBannerPromosiData.value = false;
       update();
     }
   }

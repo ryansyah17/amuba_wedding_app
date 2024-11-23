@@ -1,3 +1,4 @@
+import 'package:amubavisual_weddingphoto/app/constant/const_color.dart';
 import 'package:amubavisual_weddingphoto/app/constant/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -27,19 +28,68 @@ class _SplashscreenViewState extends State<SplashscreenView> {
         height: size.height,
         width: size.width,
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              "assets/images/amuba-visual-bg.jpg",
-            ),
-            fit: BoxFit.cover,
-          ),
+          color: blueColor,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset('assets/images/TEAMAMUBA BARU.png'),
             getSizedBox(size: 20, context: context),
-            loadingShow(context),
+            Column(
+              children: [
+                Image.asset(
+                  'assets/images/TEAMAMUBA BARU.png',
+                ),
+                getSizedBox(size: 20, context: context),
+                loadingShow(
+                  context,
+                )
+              ],
+            ),
+            getSizedBox(size: 20, context: context),
+            // Container(
+            //   decoration: BoxDecoration(
+            //       color: whiteColor.withOpacity(0.4),
+            //       boxShadow: [defaultBoxShadow],
+            //       borderRadius: BorderRadius.circular(
+            //           getActualY(y: 12, context: context))),
+            //   child: Column(
+            //     children: [
+            //       Text(
+            //         'Part Of Team Amuba',
+            //         style: textPrimer(context: context).copyWith(
+            //           color: blackColor,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           SizedBox(
+            //             height: getActualY(y: 50, context: context),
+            //             child: Image.asset('assets/icons/neyor.png'),
+            //           ),
+            //           SizedBox(
+            //             height: getActualY(y: 50, context: context),
+            //             child: Image.asset('assets/icons/babeh.png'),
+            //           ),
+            //         ],
+            //       ),
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           SizedBox(
+            //             height: getActualY(y: 40, context: context),
+            //             child: Image.asset('assets/icons/cmb.png'),
+            //           ),
+            //           SizedBox(
+            //             height: getActualY(y: 40, context: context),
+            //             child: Image.asset('assets/icons/andrian.png'),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
