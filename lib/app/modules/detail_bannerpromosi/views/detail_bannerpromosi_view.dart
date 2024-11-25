@@ -24,8 +24,7 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
             CarouselSliderController();
 
         return Obx(() => Scaffold(
-              backgroundColor:
-                  selectedColor.value, // menggunakan warna yang dipilih
+              backgroundColor: meganColorList[controller.current.value].color,
               appBar: AppBar(
                 backgroundColor: blackColor,
                 centerTitle: true,
@@ -59,8 +58,8 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
                                         .isColorable ==
                                     false
                                 ? SizedBox()
-                                : _containerColor(
-                                    context, selectedColor, controller),
+                                : _containerColor(context, selectedColor,
+                                    controller, _carouselSlider),
                             _containerDescription(context, controller),
                           ],
                         ),
@@ -78,7 +77,7 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
     return Column(
       children: [
         SizedBox(
-          height: getActualY(y: 180, context: context),
+          height: getActualY(y: 200, context: context),
           child: slides.isEmpty
               ? Center(
                   child: Text(
@@ -90,7 +89,7 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
               : Stack(
                   children: [
                     SizedBox(
-                      height: getActualY(y: 180, context: context),
+                      height: getActualY(y: 200, context: context),
                       width: double.infinity,
                       child: CarouselSlider.builder(
                         carouselController: _carouselSlider,
@@ -102,36 +101,39 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
                                 horizontal:
                                     getActualX(x: 12, context: context)),
                             width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  getActualY(y: 10, context: context)),
+                              border: Border.all(
+                                color: whiteColor,
+                              ),
+                            ),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    getActualY(y: 10, context: context)),
-                                child: imageNetwork(data.thumbMediaUrl)),
+                              borderRadius: BorderRadius.circular(
+                                  getActualY(y: 10, context: context)),
+                              child: imageNetwork(data.thumbMediaUrl),
+                            ),
                           );
                         },
                         options: CarouselOptions(
-                          height: getActualY(y: 180, context: context),
+                          height: getActualY(y: 200, context: context),
                           autoPlay: false,
                           viewportFraction: 0.85,
                           onPageChanged: (index, reason) {
-                            if (_current.value != index) {
-                              _current.value = index;
-                            }
+                            _current.value = index;
+                            controller.current.value = index;
                           },
                         ),
                       ),
                     ),
                     Positioned(
-                      bottom: getActualY(y: 20, context: context),
+                      bottom: getActualY(y: 15, context: context),
                       left: 0,
                       right: 0,
                       child: Obx(() {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: controller
-                              .dataDetailBannerPromosi.value.sliderMedia!
-                              .asMap()
-                              .entries
-                              .map((entry) {
+                          children: slides.asMap().entries.map((entry) {
                             return Container(
                               margin: EdgeInsets.symmetric(
                                   horizontal:
@@ -183,8 +185,11 @@ class DetailBannerpromosiView extends GetView<DetailBannerpromosiController> {
   }
 }
 
-Widget _containerColor(BuildContext context, Rx<Color> selectedColor,
-    DetailBannerpromosiController controller) {
+Widget _containerColor(
+    BuildContext context,
+    Rx<Color> selectedColor,
+    DetailBannerpromosiController controller,
+    CarouselSliderController _carouselSlider) {
   return Padding(
     padding:
         EdgeInsets.symmetric(horizontal: getActualX(x: 20, context: context)),
@@ -206,9 +211,9 @@ Widget _containerColor(BuildContext context, Rx<Color> selectedColor,
               var data = meganColorList[index];
               return GestureDetector(
                 onTap: () {
-                  selectedColor.value = data.color; // update warna yang dipilih
-                  controller.current.value =
-                      index; // update current index to match selected color
+                  selectedColor.value = data.color;
+                  controller.current.value = index;
+                  _carouselSlider.jumpToPage(index);
                   print(selectedColor.value);
                 },
                 child: Obx(() => Container(
@@ -220,7 +225,7 @@ Widget _containerColor(BuildContext context, Rx<Color> selectedColor,
                         shape: BoxShape.circle,
                         color: data.color,
                         border: Border.all(
-                          color: selectedColor.value == data.color
+                          color: controller.current.value == index
                               ? Colors.white // border jika dipilih
                               : Colors.transparent,
                           width: 2,
