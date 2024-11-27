@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:amubavisual_weddingphoto/app/constant/base_url.dart';
 import 'package:amubavisual_weddingphoto/app/data/home_data/banner_promosi_data.dart';
 import 'package:amubavisual_weddingphoto/app/data/home_data/event_data.dart';
+import 'package:amubavisual_weddingphoto/app/data/other_data/data_contact_person.dart';
 import 'package:amubavisual_weddingphoto/app/data/other_data/kategori_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,7 @@ class HomeController extends GetxController {
   var isLoadingBannerPromosiData = false.obs;
   var isLoadingKategoriData = false.obs;
   var isLoadingEventData = false.obs;
+  var isLoadingWhatsAppData = false.obs;
   var currentPage = 1;
 
   //entity
@@ -33,6 +35,7 @@ class HomeController extends GetxController {
   var promosiSlideData = DataBannerPromosi().obs;
   var kategoriData = DataKategori().obs;
   var eventData = DataEvent().obs;
+  var whatsappData = DataWhatsApp().obs;
 
   @override
   void onInit() {
@@ -40,6 +43,7 @@ class HomeController extends GetxController {
     fetchKategoriListData(true);
     fetchBannerData(true);
     fetchBannerPromosiData(true);
+    fetchWhatsAppData(true);
     super.onInit();
   }
 
@@ -124,6 +128,33 @@ class HomeController extends GetxController {
       print(e);
     } finally {
       isLoadingKategoriData.value = false;
+      update();
+    }
+  }
+
+  Future<void> fetchWhatsAppData(bool refresh) async {
+    isLoadingWhatsAppData.value = true;
+    update();
+    var url = '${baseUrl}api/v1/utils/get-whatsapp-number';
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        whatsappData.value = DataWhatsApp.fromJson(jsonData);
+      } else {
+        handleErrorResponse(response);
+      }
+    } catch (e) {
+      handleException('WhatsApp', e);
+      print(e);
+    } finally {
+      isLoadingWhatsAppData.value = false;
       update();
     }
   }

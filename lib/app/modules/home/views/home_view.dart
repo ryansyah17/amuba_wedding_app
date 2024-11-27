@@ -9,6 +9,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constant/const_text.dart';
 import '../../../constant/constant.dart';
@@ -47,10 +48,10 @@ class HomeView extends GetView<HomeController> {
                   ? loadingShow(context)
                   : RefreshIndicator(
                       onRefresh: () => Future.sync(() {
-                            controller.fetchBannerData(true);
-                            controller.fetchBannerPromosiData(true);
-                            controller.fetchEventData(true, null);
-                          }),
+                        controller.fetchBannerData(true);
+                        controller.fetchBannerPromosiData(true);
+                        controller.fetchEventData(true, null);
+                      }),
                       child: ListView(
                         children: [
                           _containerImageSlider(
@@ -77,8 +78,29 @@ class HomeView extends GetView<HomeController> {
                               controller.imageSlideData.value.data!, _current2),
                           getSizedBox(size: 20, context: context),
                           _containerListEvent(context, controller),
+                          getSizedBox(size: 60, context: context),
                         ],
-                      )),
+                      ),
+                    ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(
+              bottom: getActualY(y: 70, context: context),
+            ),
+            child: FloatingActionButton(
+              backgroundColor: Colors.green,
+              onPressed: () async {
+                var sales =
+                    controller.whatsappData.value.data?.whatsappNumber ?? '';
+                await openUrl(
+                    'https://api.whatsapp.com/send/?phone=%2B$sales&text&type=phone_number&app_absent=0');
+              },
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset('assets/icons/whatsapp.png'),
+              ),
+            ),
+          ),
         );
       },
     );
@@ -178,7 +200,7 @@ class HomeView extends GetView<HomeController> {
     return Column(
       children: [
         SizedBox(
-          height: getActualY(y: 120, context: context),
+          height: getActualY(y: 60, context: context),
           width: double.infinity,
           child: CarouselSlider.builder(
             carouselController: _carouselSlider,
@@ -205,7 +227,7 @@ class HomeView extends GetView<HomeController> {
             },
             options: CarouselOptions(
               height: getActualY(y: 120, context: context),
-              viewportFraction: 0.7,
+              viewportFraction: 0.5,
               onPageChanged: (index, reason) {
                 if (_current2.value != index) {
                   _current2.value = index; // Update only if different
@@ -220,13 +242,18 @@ class HomeView extends GetView<HomeController> {
 
   Widget _containerListEvent(BuildContext context, HomeController homeCtrl) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Download Foto Event',
-          style: textPrimer(context: context).copyWith(
-            color: whiteColor,
-            fontSize: getActualY(y: 16, context: context),
-            fontWeight: FontWeight.w600,
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: getActualY(y: 20, context: context)),
+          child: Text(
+            'Download Foto Event',
+            style: textPrimer(context: context).copyWith(
+              color: whiteColor,
+              fontSize: getActualY(y: 16, context: context),
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         getSizedBox(size: 10, context: context),
@@ -413,5 +440,11 @@ class HomeView extends GetView<HomeController> {
                       )
       ],
     );
+  }
+
+  Future<void> openUrl(String url,
+      {bool forceWebView = false, bool enableJavaScript = false}) async {
+    await launch(url,
+        forceSafariVC: forceWebView, enableJavaScript: enableJavaScript);
   }
 }

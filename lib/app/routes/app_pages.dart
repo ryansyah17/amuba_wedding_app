@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
-import 'package:upgrader/upgrader.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/my_team_page/bindings/my_team_page_binding.dart';
+import '../modules/my_team_page/views/my_team_page_view.dart';
+import '../modules/produk_page/bindings/produk_page_binding.dart';
+import '../modules/produk_page/views/produk_page_view.dart';
 import '../modules/splashscreen/bindings/splashscreen_binding.dart';
 import '../modules/splashscreen/views/splashscreen_view.dart';
 import '../modules/welcome/bindings/welcome_binding.dart';
@@ -18,12 +21,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => UpgradeAlert(
-        dialogStyle: UpgradeDialogStyle.material,
-        showIgnore: false,
-        barrierDismissible: false,
-        child: const HomeView(),
-      ),
+      page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -35,6 +33,16 @@ class AppPages {
       name: _Paths.SPLASHSCREEN,
       page: () => const SplashscreenView(),
       binding: SplashscreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_TEAM_PAGE,
+      page: () => const MyTeamPageView(),
+      binding: MyTeamPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUK_PAGE,
+      page: () => const ProdukPageView(),
+      binding: ProdukPageBinding(),
     ),
   ];
 }

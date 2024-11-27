@@ -1,5 +1,6 @@
 import 'package:amubavisual_weddingphoto/app/constant/const_color.dart';
 import 'package:amubavisual_weddingphoto/app/constant/constant.dart';
+import 'package:amubavisual_weddingphoto/app/modules/navbar/views/main_page_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class _SplashscreenViewState extends State<SplashscreenView> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      Get.offAllNamed('/home');
+      Get.offAll(MainPageView(initialPage: 1));
     });
   }
 
