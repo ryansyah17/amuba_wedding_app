@@ -2,6 +2,7 @@ import 'package:amubavisual_weddingphoto/app/constant/const_color.dart';
 import 'package:amubavisual_weddingphoto/app/data/arguments/detail_event_arguments.dart';
 import 'package:amubavisual_weddingphoto/app/data/home_data/banner_slide_data.dart'
     as image;
+import 'package:amubavisual_weddingphoto/app/modules/booking_services/views/booking_services_view.dart';
 import 'package:amubavisual_weddingphoto/app/modules/detail_bannerpromosi/views/detail_bannerpromosi_view.dart';
 import 'package:amubavisual_weddingphoto/app/modules/detail_event/views/detail_event_view.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -77,6 +78,8 @@ class HomeView extends GetView<HomeController> {
                           _containerImageBanner(context, _carouselSlider,
                               controller.imageSlideData.value.data!, _current2),
                           getSizedBox(size: 20, context: context),
+                          _containerDelivery(context),
+                          getSizedBox(size: 20, context: context),
                           _containerListEvent(context, controller),
                           getSizedBox(size: 60, context: context),
                         ],
@@ -145,7 +148,7 @@ class HomeView extends GetView<HomeController> {
                   },
                   options: CarouselOptions(
                     height: getActualY(y: 220, context: context),
-                    autoPlay: true,
+                    autoPlay: false,
                     viewportFraction: 1,
                     onPageChanged: (index, reason) {
                       if (_current.value != index) {
@@ -191,6 +194,91 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
+  Widget _containerDelivery(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(BookingServicesView());
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(
+            horizontal: getActualY(y: 20, context: context)),
+        height: getActualY(y: 140, context: context),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                padding: EdgeInsets.all(getActualY(y: 5, context: context)),
+                height: getActualY(y: 100, context: context),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: greyColor.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: getActualX(x: 150, context: context)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Booking Services',
+                        style: textPrimer(context: context).copyWith(
+                          color: whiteColor,
+                          fontSize: getActualY(y: 16, context: context),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: getActualY(y: 5, context: context),
+                      ),
+                      Container(
+                        height: getActualY(y: 25, context: context),
+                        width: getActualX(x: 100, context: context),
+                        decoration: BoxDecoration(
+                          color: primerColor,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Pesan',
+                            style: textPrimer(context: context).copyWith(
+                              fontSize: getActualY(y: 14, context: context),
+                              color: blackColor,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: getActualX(x: 20, context: context),
+              child: SizedBox(
+                width: getActualX(x: 100, context: context),
+                height: getActualX(x: 100, context: context),
+                child: Image.asset(
+                  'assets/icons/travel.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _containerImageBanner(
     BuildContext context,
     CarouselSliderController _carouselSlider,
@@ -215,13 +303,17 @@ class HomeView extends GetView<HomeController> {
                   borderRadius: BorderRadius.circular(
                     getActualX(x: 8, context: context),
                   ),
+                  color: whiteColor,
                   boxShadow: [defaultBoxShadow],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(
                     getActualX(x: 8, context: context),
                   ),
-                  child: imageNetwork(data.thumbMediaUrl!),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: imageNetwork(data.thumbMediaUrl!),
+                  ),
                 ),
               );
             },

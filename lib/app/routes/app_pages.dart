@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/booking_services/bindings/booking_services_binding.dart';
+import '../modules/booking_services/views/booking_services_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/my_team_page/bindings/my_team_page_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.PRODUK_PAGE,
       page: () => const ProdukPageView(),
       binding: ProdukPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING_SERVICES,
+      page: () => const BookingServicesView(),
+      binding: BookingServicesBinding(),
     ),
   ];
 }

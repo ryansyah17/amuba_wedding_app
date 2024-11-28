@@ -13,7 +13,7 @@ class ProdukPageView extends GetView<ProdukPageController> {
   const ProdukPageView({super.key});
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
+    return GetBuilder<ProdukPageController>(
       init: ProdukPageController(),
       builder: (controller) {
         return Scaffold(

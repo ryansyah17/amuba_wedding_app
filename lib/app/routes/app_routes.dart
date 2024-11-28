@@ -14,6 +14,8 @@ abstract class Routes {
   static const RIDERS_DETAIL = _Paths.RIDERS_DETAIL;
   static const PRODUK_PAGE = _Paths.PRODUK_PAGE;
   static const PRODUK_DETAIL = _Paths.PRODUK_DETAIL;
+  static const MOTOR_DETAIL = _Paths.MOTOR_DETAIL;
+  static const BOOKING_SERVICES = _Paths.BOOKING_SERVICES;
 }
 
 abstract class _Paths {
@@ -29,4 +31,6 @@ abstract class _Paths {
   static const RIDERS_DETAIL = '/riders-detail';
   static const PRODUK_PAGE = '/produk-page';
   static const PRODUK_DETAIL = '/produk-detail';
+  static const MOTOR_DETAIL = '/motor-detail';
+  static const BOOKING_SERVICES = '/booking-services';
 }

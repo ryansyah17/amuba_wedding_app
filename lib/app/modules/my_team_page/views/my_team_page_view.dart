@@ -1,6 +1,7 @@
 import 'package:amubavisual_weddingphoto/app/constant/const_text.dart';
 import 'package:amubavisual_weddingphoto/app/data/arguments/detail_artikel_arguments.dart';
 import 'package:amubavisual_weddingphoto/app/data/arguments/detail_riders_arguments.dart';
+import 'package:amubavisual_weddingphoto/app/modules/motor_detail/views/motor_detail_view.dart';
 import 'package:amubavisual_weddingphoto/app/modules/riders_detail/views/riders_detail_view.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../constant/const_color.dart';
 import '../../../constant/constant.dart';
+import '../../../data/arguments/detail_motor_arguments.dart';
 import '../../artikel_detail/views/artikel_detail_view.dart';
 import '../controllers/my_team_page_controller.dart';
 
@@ -179,8 +181,12 @@ class MyTeamPageView extends GetView<MyTeamPageController> {
                         var data = motorData.data![index];
                         return InkWell(
                           onTap: () {
-                            showDialogDetail(context, data.title,
-                                data.description, data.mediaUrl);
+                            var args = DetailMotorArguments(id: data.id);
+                            Get.to(
+                                MotorDetailView(
+                                  idMotor: data.id,
+                                ),
+                                arguments: args);
                           },
                           child: Container(
                             margin: EdgeInsets.all(

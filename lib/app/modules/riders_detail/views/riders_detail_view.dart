@@ -146,7 +146,7 @@ class RidersDetailView extends GetView<RidersDetailController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Deskripsi Riders',
+          'Prestasi Riders',
           style: textPrimer(context: context).copyWith(
             color: whiteColor,
             fontSize: getActualY(y: 16, context: context),
