@@ -31,22 +31,37 @@ class MyTeamPageView extends GetView<MyTeamPageController> {
               child: Image.asset('assets/images/TEAMAMUBA BARU.png'),
             ),
           ),
-          body: Padding(
-            padding: EdgeInsets.all(getActualY(y: 20, context: context)),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _containerProfilePembalap(context, controller),
-                  getSizedBox(size: 20, context: context),
-                  _containerProfileMotor(context, controller),
-                  getSizedBox(size: 20, context: context),
-                  _containerProfilePenghargaraan(context, controller),
-                  getSizedBox(size: 20, context: context),
-                  _containerArtikel(context, controller),
-                  getSizedBox(size: 60, context: context),
-                ],
-              ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(getActualY(y: 20, context: context)),
+                  child: Text(
+                    'Profile Pembalap',
+                    style: textPrimer(context: context)
+                        .copyWith(color: whiteColor),
+                  ),
+                ),
+                _containerProfilePembalap(context, controller),
+                Padding(
+                  padding: EdgeInsets.all(getActualY(y: 20, context: context)),
+                  child: Text(
+                    'Team Profile',
+                    style: textPrimer(context: context)
+                        .copyWith(color: whiteColor),
+                  ),
+                ),
+                _containerProfileMotor(context, controller),
+                getSizedBox(size: 20, context: context),
+                // _containerProfilePenghargaraan(context, controller),
+                // getSizedBox(size: 20, context: context),
+                Padding(
+                  padding: EdgeInsets.all(getActualY(y: 20, context: context)),
+                  child: _containerArtikel(context, controller),
+                ),
+                getSizedBox(size: 60, context: context),
+              ],
             ),
           ),
         );
@@ -57,203 +72,166 @@ class MyTeamPageView extends GetView<MyTeamPageController> {
   Widget _containerProfilePembalap(
       BuildContext context, MyTeamPageController controller) {
     var ridersData = controller.ridersData.value;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Profile Pembalap',
-          style: textPrimer(context: context).copyWith(color: whiteColor),
-        ),
-        getSizedBox(size: 10, context: context),
-        SizedBox(
-          height: getActualY(y: 200, context: context),
-          child: controller.isLoadingRiders.value
-              ? loadingShow(context)
-              : ridersData.success == false
-                  ? loadingShow(context)
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: ridersData.data?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        var data = ridersData.data![index];
-                        return InkWell(
-                          onTap: () {
-                            var args = DetailRidersArguments(id: data.id!);
-                            Get.to(
-                                RidersDetailView(
-                                  idRiders: data.id!,
-                                ),
-                                arguments: args);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(
-                              getActualY(y: 10, context: context),
-                            ),
-                            width: getActualX(x: 160, context: context),
-                            decoration: BoxDecoration(
-                                color: whiteColor,
+    return controller.isLoadingRiders.value
+        ? loadingShow(context)
+        : ridersData.success == false
+            ? loadingShow(context)
+            : ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: ridersData.data?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var data = ridersData.data![index];
+                  return InkWell(
+                    onTap: () {
+                      var args = DetailRidersArguments(id: data.id!);
+                      Get.to(
+                          RidersDetailView(
+                            idRiders: data.id!,
+                          ),
+                          arguments: args);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: getActualY(y: 200, context: context),
+                      decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(
+                            getActualY(y: 10, context: context),
+                          ),
+                          boxShadow: [defaultBoxShadow],
+                          border: Border.all(color: whiteColor)),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: 0,
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
                                   getActualY(y: 10, context: context),
                                 ),
-                                boxShadow: [defaultBoxShadow],
-                                border: Border.all(color: whiteColor)),
-                            child: Stack(
+                                child: imageNetwork(data.mediaUrl ?? '')),
+                          ),
+                          Positioned(
+                            left: getActualX(x: 10, context: context),
+                            right: getActualX(x: 10, context: context),
+                            bottom: getActualY(y: 10, context: context),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Positioned(
-                                  bottom: 0,
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        getActualY(y: 10, context: context),
-                                      ),
-                                      child: imageNetwork(data.mediaUrl ?? '')),
-                                ),
-                                Positioned(
-                                  left: getActualX(x: 10, context: context),
-                                  right: getActualX(x: 10, context: context),
-                                  bottom: getActualY(y: 10, context: context),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '#${data.namaJulukan ?? ''}',
-                                        style: textPrimer(context: context)
-                                            .copyWith(
-                                          color: whiteColor,
-                                          fontSize: getActualY(
-                                              y: 14, context: context),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${data.namaLengkap}',
-                                        style: textPrimer(context: context)
-                                            .copyWith(
-                                          color: whiteColor,
-                                          fontSize: getActualY(
-                                              y: 16, context: context),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                    ],
+                                Text(
+                                  '#${data.namaJulukan ?? ''}',
+                                  style: textPrimer(context: context).copyWith(
+                                    color: whiteColor,
+                                    fontSize:
+                                        getActualY(y: 14, context: context),
+                                    fontWeight: FontWeight.bold,
                                   ),
+                                ),
+                                Text(
+                                  '${data.namaLengkap}',
+                                  style: textPrimer(context: context).copyWith(
+                                    color: whiteColor,
+                                    fontSize:
+                                        getActualY(y: 16, context: context),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
-        ),
-      ],
-    );
+                  );
+                },
+              );
   }
 
   Widget _containerProfileMotor(
       BuildContext context, MyTeamPageController controller) {
     var motorData = controller.motorData.value;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Profile Motor',
-          style: textPrimer(context: context).copyWith(color: whiteColor),
-        ),
-        getSizedBox(size: 10, context: context),
-        SizedBox(
-          height: getActualY(y: 150, context: context),
-          child: controller.isLoadingMotor.value
-              ? loadingShow(context)
-              : motorData.success == false
-                  ? loadingShow(context)
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: motorData.data?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        var data = motorData.data![index];
-                        return InkWell(
-                          onTap: () {
-                            var args = DetailMotorArguments(id: data.id);
-                            Get.to(
-                                MotorDetailView(
-                                  idMotor: data.id,
-                                ),
-                                arguments: args);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(
-                              getActualY(y: 10, context: context),
-                            ),
-                            width: getActualX(x: 250, context: context),
-                            decoration: BoxDecoration(
-                                color: whiteColor,
+    return controller.isLoadingMotor.value
+        ? loadingShow(context)
+        : motorData.success == false
+            ? loadingShow(context)
+            : ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: motorData.data?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var data = motorData.data![index];
+                  return InkWell(
+                    onTap: () {
+                      var args = DetailMotorArguments(id: data.id);
+                      Get.to(
+                          MotorDetailView(
+                            idMotor: data.id,
+                          ),
+                          arguments: args);
+                    },
+                    child: Container(
+                      height: getActualY(y: 200, context: context),
+                      width: getActualX(x: 250, context: context),
+                      decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(
+                            getActualY(y: 10, context: context),
+                          ),
+                          boxShadow: [defaultBoxShadow],
+                          border: Border.all(color: whiteColor)),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: 0,
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
                                   getActualY(y: 10, context: context),
                                 ),
-                                boxShadow: [defaultBoxShadow],
-                                border: Border.all(color: whiteColor)),
-                            child: Stack(
+                                child: imageNetwork(data.mediaUrl)),
+                          ),
+                          Positioned(
+                            left: getActualX(x: 10, context: context),
+                            right: getActualX(x: 10, context: context),
+                            bottom: getActualY(y: 10, context: context),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Positioned(
-                                  bottom: 0,
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        getActualY(y: 10, context: context),
-                                      ),
-                                      child: imageNetwork(data.mediaUrl)),
-                                ),
-                                Positioned(
-                                  left: getActualX(x: 10, context: context),
-                                  right: getActualX(x: 10, context: context),
-                                  bottom: getActualY(y: 10, context: context),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        data.title,
-                                        style: textPrimer(context: context)
-                                            .copyWith(
-                                          color: whiteColor,
-                                          fontSize: getActualY(
-                                              y: 14, context: context),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        removeHtmlTags(data.description),
-                                        style: textPrimer(context: context)
-                                            .copyWith(
-                                          color: whiteColor,
-                                          fontSize: getActualY(
-                                              y: 16, context: context),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                    ],
+                                Text(
+                                  data.title,
+                                  style: textPrimer(context: context).copyWith(
+                                    color: whiteColor,
+                                    fontSize:
+                                        getActualY(y: 14, context: context),
+                                    fontWeight: FontWeight.bold,
                                   ),
+                                ),
+                                Text(
+                                  removeHtmlTags(data.description),
+                                  style: textPrimer(context: context).copyWith(
+                                    color: whiteColor,
+                                    fontSize:
+                                        getActualY(y: 16, context: context),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
-        ),
-      ],
-    );
+                  );
+                },
+              );
   }
 
   Widget _containerProfilePenghargaraan(

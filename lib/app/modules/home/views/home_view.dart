@@ -162,7 +162,8 @@ class HomeView extends GetView<HomeController> {
                 bottom: getActualY(y: 20, context: context),
                 left: 0,
                 right: 0,
-                child: Obx(() {
+                child: 
+                Obx(() {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: controller.promosiSlideData.value.data!
