@@ -60,11 +60,15 @@ class ProdukPageView extends GetView<ProdukPageController> {
                           ),
                         ],
                       ),
-                      Text(
-                        'Nomor WhatsApp : +${controller.whatsappData.value.data?.whatsappNumber ?? ''}',
-                        style: textPrimer(context: context)
-                            .copyWith(color: whiteColor),
-                      ),
+                      controller.isLoadingWhatsAppData.value
+                          ? Container()
+                          : controller.whatsappData.value.success == false
+                              ? Container()
+                              : Text(
+                                  'Nomor WhatsApp : +${controller.whatsappData.value.data?.whatsappNumber ?? ''}',
+                                  style: textPrimer(context: context)
+                                      .copyWith(color: whiteColor),
+                                ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -175,7 +179,7 @@ class ProdukPageView extends GetView<ProdukPageController> {
   Widget _containerListProduck(
       BuildContext context, ProdukPageController controller) {
     var produkData = controller.produkData.value;
-    return controller.isLoadingWhatsAppData.value
+    return controller.isLoadingproduk.value
         ? loadingShow(context)
         : produkData.success! == false
             ? loadingShow(context)

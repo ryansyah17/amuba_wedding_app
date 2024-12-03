@@ -1,7 +1,5 @@
 import 'package:amubavisual_weddingphoto/app/constant/const_color.dart';
 import 'package:amubavisual_weddingphoto/app/data/arguments/detail_event_arguments.dart';
-import 'package:amubavisual_weddingphoto/app/data/home_data/banner_slide_data.dart'
-    as image;
 import 'package:amubavisual_weddingphoto/app/modules/booking_services/views/booking_services_view.dart';
 import 'package:amubavisual_weddingphoto/app/modules/detail_bannerpromosi/views/detail_bannerpromosi_view.dart';
 import 'package:amubavisual_weddingphoto/app/modules/detail_event/views/detail_event_view.dart';
@@ -29,7 +27,7 @@ class HomeView extends GetView<HomeController> {
         final CarouselSliderController _carouselSlider =
             CarouselSliderController();
         var _current = 0.obs;
-        var _current2 = 0.obs;
+
         return Scaffold(
           backgroundColor: blackColor,
           appBar: AppBar(
@@ -41,15 +39,12 @@ class HomeView extends GetView<HomeController> {
               child: Image.asset('assets/images/TEAMAMUBA BARU.png'),
             ),
           ),
-          body: controller.isLoadingBannerSlideData.value ||
-                  controller.isLoadingBannerPromosiData.value
+          body: controller.isLoadingBannerPromosiData.value
               ? loadingShow(context)
-              : controller.imageSlideData.value.success! == false ||
-                      controller.promosiSlideData.value.success == false
+              : controller.promosiSlideData.value.success == false
                   ? loadingShow(context)
                   : RefreshIndicator(
                       onRefresh: () => Future.sync(() {
-                        controller.fetchBannerData(true);
                         controller.fetchBannerPromosiData(true);
                         controller.fetchEventData(true, null);
                       }),
@@ -60,24 +55,6 @@ class HomeView extends GetView<HomeController> {
                               _carouselSlider,
                               controller.promosiSlideData.value.data!,
                               _current),
-                          getSizedBox(size: 20, context: context),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: getActualY(y: 20, context: context),
-                            ),
-                            child: Text(
-                              'Part of Team Amuba',
-                              style: textPrimer(context: context).copyWith(
-                                  color: whiteColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      getActualY(y: 16, context: context)),
-                            ),
-                          ),
-                          getSizedBox(size: 20, context: context),
-                          _containerImageBanner(context, _carouselSlider,
-                              controller.imageSlideData.value.data!, _current2),
-                          getSizedBox(size: 20, context: context),
                           _containerDelivery(context),
                           getSizedBox(size: 20, context: context),
                           _containerListEvent(context, controller),
@@ -162,8 +139,7 @@ class HomeView extends GetView<HomeController> {
                 bottom: getActualY(y: 20, context: context),
                 left: 0,
                 right: 0,
-                child: 
-                Obx(() {
+                child: Obx(() {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: controller.promosiSlideData.value.data!
@@ -196,136 +172,35 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _containerDelivery(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(BookingServicesView());
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: getActualY(y: 20, context: context)),
-        height: getActualY(y: 140, context: context),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: Container(
-                padding: EdgeInsets.all(getActualY(y: 5, context: context)),
-                height: getActualY(y: 100, context: context),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: greyColor.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: getActualX(x: 150, context: context)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Booking Services',
-                        style: textPrimer(context: context).copyWith(
-                          color: whiteColor,
-                          fontSize: getActualY(y: 16, context: context),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: getActualY(y: 5, context: context),
-                      ),
-                      Container(
-                        height: getActualY(y: 25, context: context),
-                        width: getActualX(x: 100, context: context),
-                        decoration: BoxDecoration(
-                          color: primerColor,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Pesan',
-                            style: textPrimer(context: context).copyWith(
-                              fontSize: getActualY(y: 14, context: context),
-                              color: blackColor,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: getActualX(x: 20, context: context),
-              child: SizedBox(
-                width: getActualX(x: 100, context: context),
-                height: getActualX(x: 100, context: context),
-                child: Image.asset(
-                  'assets/icons/travel.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _containerImageBanner(
-    BuildContext context,
-    CarouselSliderController _carouselSlider,
-    List<image.Data> slides,
-    RxInt _current2,
-  ) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: getActualY(y: 60, context: context),
-          width: double.infinity,
-          child: CarouselSlider.builder(
-            carouselController: _carouselSlider,
-            itemCount: slides.length,
-            itemBuilder: (context, index, realIndex) {
-              var data = slides[index];
-              return Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: getActualY(y: 10, context: context)),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    getActualX(x: 8, context: context),
-                  ),
-                  color: whiteColor,
-                  boxShadow: [defaultBoxShadow],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    getActualX(x: 8, context: context),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: imageNetwork(data.thumbMediaUrl!),
-                  ),
-                ),
-              );
-            },
-            options: CarouselOptions(
-              height: getActualY(y: 120, context: context),
-              viewportFraction: 0.5,
-              onPageChanged: (index, reason) {
-                if (_current2.value != index) {
-                  _current2.value = index; // Update only if different
-                }
-              },
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Text(
+            'Service Motor Listrik',
+            style: textPrimer(context: context).copyWith(
+              color: whiteColor,
+              fontSize: getActualY(y: 16, context: context),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Get.to(BookingServicesView());
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: getActualY(y: 20, context: context)),
+            height: getActualY(y: 180, context: context),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: whiteColor,
+              image: DecorationImage(
+                  image: AssetImage('assets/images/amuba-visual-bg.jpg'),
+                  fit: BoxFit.cover),
             ),
           ),
         ),

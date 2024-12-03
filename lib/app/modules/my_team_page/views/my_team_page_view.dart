@@ -39,8 +39,11 @@ class MyTeamPageView extends GetView<MyTeamPageController> {
                   padding: EdgeInsets.all(getActualY(y: 20, context: context)),
                   child: Text(
                     'Profile Pembalap',
-                    style: textPrimer(context: context)
-                        .copyWith(color: whiteColor),
+                    style: textPrimer(context: context).copyWith(
+                      color: whiteColor,
+                      fontSize: getActualY(y: 16, context: context),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 _containerProfilePembalap(context, controller),
@@ -48,14 +51,15 @@ class MyTeamPageView extends GetView<MyTeamPageController> {
                   padding: EdgeInsets.all(getActualY(y: 20, context: context)),
                   child: Text(
                     'Team Profile',
-                    style: textPrimer(context: context)
-                        .copyWith(color: whiteColor),
+                    style: textPrimer(context: context).copyWith(
+                      color: whiteColor,
+                      fontSize: getActualY(y: 16, context: context),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 _containerProfileMotor(context, controller),
                 getSizedBox(size: 20, context: context),
-                // _containerProfilePenghargaraan(context, controller),
-                // getSizedBox(size: 20, context: context),
                 Padding(
                   padding: EdgeInsets.all(getActualY(y: 20, context: context)),
                   child: _containerArtikel(context, controller),
@@ -328,7 +332,11 @@ class MyTeamPageView extends GetView<MyTeamPageController> {
       children: [
         Text(
           'Artikel',
-          style: textPrimer(context: context).copyWith(color: whiteColor),
+          style: textPrimer(context: context).copyWith(
+            color: whiteColor,
+            fontSize: getActualY(y: 16, context: context),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         getSizedBox(size: 10, context: context),
         controller.isLoadingArtikel.value

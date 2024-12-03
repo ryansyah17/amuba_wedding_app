@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../services/services.dart';
-import '../../../data/home_data/banner_slide_data.dart';
 
 class HomeController extends GetxController {
   final ScrollController scrollController = ScrollController();
@@ -23,7 +22,7 @@ class HomeController extends GetxController {
   var selectedid = 0.obs;
 
   //loading
-  var isLoadingBannerSlideData = false.obs;
+
   var isLoadingBannerPromosiData = false.obs;
   var isLoadingKategoriData = false.obs;
   var isLoadingEventData = false.obs;
@@ -31,7 +30,7 @@ class HomeController extends GetxController {
   var currentPage = 1;
 
   //entity
-  var imageSlideData = DataImageSlider().obs;
+
   var promosiSlideData = DataBannerPromosi().obs;
   var kategoriData = DataKategori().obs;
   var eventData = DataEvent().obs;
@@ -41,38 +40,12 @@ class HomeController extends GetxController {
   void onInit() {
     fetchEventData(true, null);
     fetchKategoriListData(true);
-    fetchBannerData(true);
     fetchBannerPromosiData(true);
     fetchWhatsAppData(true);
     super.onInit();
   }
 
   //fetch banner image slider
-  Future<void> fetchBannerData(bool refresh) async {
-    isLoadingBannerSlideData.value = true;
-    update();
-    var url = '${baseUrl}api/v1/slider?kategori=image_slider';
-    try {
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        imageSlideData.value = DataImageSlider.fromJson(jsonData);
-      } else {
-        handleErrorResponse(response);
-      }
-    } catch (e) {
-      handleException('Banner', e);
-      print(e);
-    } finally {
-      isLoadingBannerSlideData.value = false;
-      update();
-    }
-  }
 
   //fetch banner promosi
   Future<void> fetchBannerPromosiData(bool refresh) async {

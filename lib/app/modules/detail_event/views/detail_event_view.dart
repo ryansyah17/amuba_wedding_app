@@ -11,6 +11,7 @@ import '../../../constant/const_color.dart';
 import '../../../constant/const_text.dart';
 import '../../../constant/constant.dart';
 import '../../../data/home_data/banner_promosi_data.dart' as promosi;
+import '../../../data/home_data/banner_slide_data.dart' as image;
 import '../controllers/detail_event_controller.dart';
 
 class DetailEventView extends GetView<DetailEventController> {
@@ -19,7 +20,7 @@ class DetailEventView extends GetView<DetailEventController> {
   @override
   Widget build(BuildContext context) {
     final CarouselSliderController _carouselSlider = CarouselSliderController();
-    var _current = 0.obs;
+    var _current2 = 0.obs;
     return GetBuilder(
       init: DetailEventController(),
       builder: (controller) {
@@ -67,10 +68,26 @@ class DetailEventView extends GetView<DetailEventController> {
             body: RefreshIndicator(
               onRefresh: () => controller.fetchEventDetailData(true, page: 1),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //imageslider
-                  _containerImageSlider(context, _carouselSlider,
-                      controller.promosiSlideData.value.data!, _current),
+                  Text(
+                    'Part of Team Amuba',
+                    style: textPrimer(context: context).copyWith(
+                        color: whiteColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: getActualY(y: 20, context: context)),
+                  ),
+                  Text(
+                    'Our Proud Sponsor and Collaborator',
+                    style: textPrimer(context: context).copyWith(
+                        color: greyColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: getActualY(y: 14, context: context)),
+                  ),
+                  getSizedBox(size: 10, context: context),
+                  _containerImageBanner(context, _carouselSlider,
+                      controller.imageSlideData.value.data!, _current2),
                   getSizedBox(size: 20, context: context),
                   Expanded(
                     child: SingleChildScrollView(
@@ -241,6 +258,59 @@ class DetailEventView extends GetView<DetailEventController> {
           );
         }
       },
+    );
+  }
+
+  Widget _containerImageBanner(
+    BuildContext context,
+    CarouselSliderController _carouselSlider,
+    List<image.Data> slides,
+    RxInt _current2,
+  ) {
+    return Column(
+      children: [
+        SizedBox(
+          height: getActualY(y: 100, context: context),
+          width: double.infinity,
+          child: CarouselSlider.builder(
+            carouselController: _carouselSlider,
+            itemCount: slides.length,
+            itemBuilder: (context, index, realIndex) {
+              var data = slides[index];
+              return Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: getActualY(y: 10, context: context)),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    getActualX(x: 8, context: context),
+                  ),
+                  color: whiteColor,
+                  boxShadow: [defaultBoxShadow],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    getActualX(x: 8, context: context),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: imageNetwork(data.thumbMediaUrl!),
+                  ),
+                ),
+              );
+            },
+            options: CarouselOptions(
+              height: getActualY(y: 120, context: context),
+              viewportFraction: 0.5,
+              onPageChanged: (index, reason) {
+                if (_current2.value != index) {
+                  _current2.value = index; // Update only if different
+                }
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
